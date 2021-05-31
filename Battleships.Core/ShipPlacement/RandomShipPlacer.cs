@@ -16,15 +16,15 @@ namespace Battleships.Core.ShipPlacement
         {
             var placedShips = new List<PlacedShip>();
             
-            var allFreeCoordinates = GetListOfAllFreeCoordinates();
+            var freeCoordinates = GetListOfAllFreeCoordinates();
             
             foreach (var (shipName, shipSize) in unplacedShips)
             {
-                var placementCoordinates = FindCoordinatesForShip(shipSize, allFreeCoordinates);
+                var placementCoordinates = FindPlacementCoordinatesForShip(shipSize, freeCoordinates);
 
                 foreach (var coordinate in placementCoordinates)
                 {
-                    allFreeCoordinates.Remove(coordinate);
+                    freeCoordinates.Remove(coordinate);
                 }
 
                 var placedShip = new PlacedShip(
@@ -53,7 +53,7 @@ namespace Battleships.Core.ShipPlacement
             return freeCoordinates;
         }
         
-        private List<Coordinate> FindCoordinatesForShip(
+        private List<Coordinate> FindPlacementCoordinatesForShip(
             int shipSize,
             ICollection<Coordinate> freeCoordinates)
         {
