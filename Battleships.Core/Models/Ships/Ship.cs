@@ -1,6 +1,11 @@
-﻿namespace Battleships.Core.Models.Ships
+﻿using System.Collections.Generic;
+
+namespace Battleships.Core.Models.Ships
 {
-    public abstract record Ship(
+    public record Ship(
         string Name,
-        int Size);
+        int Size)
+    {
+        public List<Coordinate> Coordinates { get; set; } = new();
+    }
 }

@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="ShipPlacement" />
+      <Folder Include="ShipPlacement\Exceptions" />
     </ItemGroup>
 
 </Project>
