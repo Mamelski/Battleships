@@ -2,7 +2,7 @@
 
 namespace Battleships.Core.Models.Ships
 {
-    public record Ship(
+    public abstract record Ship(
         string Name,
         int Size)
     {
