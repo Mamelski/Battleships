@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Battleships.Core", "Battleships.Core\Battleships.Core.csproj", "{CD5A6EC1-1E71-4B58-B353-3068FFA77A6E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{65B560BF-8E16-45D4-872E-AD1F5C45F065}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Battleships.Core.Tests", "Battleships.Core.Tests\Battleships.Core.Tests.csproj", "{06FF04B1-7029-48D1-832D-8B025DB51E8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,12 @@ Global
 		{CD5A6EC1-1E71-4B58-B353-3068FFA77A6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD5A6EC1-1E71-4B58-B353-3068FFA77A6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD5A6EC1-1E71-4B58-B353-3068FFA77A6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06FF04B1-7029-48D1-832D-8B025DB51E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06FF04B1-7029-48D1-832D-8B025DB51E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06FF04B1-7029-48D1-832D-8B025DB51E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06FF04B1-7029-48D1-832D-8B025DB51E8D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{06FF04B1-7029-48D1-832D-8B025DB51E8D} = {65B560BF-8E16-45D4-872E-AD1F5C45F065}
 	EndGlobalSection
 EndGlobal

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Battleships.Core.Models;
 using Battleships.Core.Models.Ships;
-using Battleships.Core.ShipPlacement.Models;
 using Battleships.Core.Utils;
 
 namespace Battleships.Core.ShipPlacement
@@ -17,20 +16,17 @@ namespace Battleships.Core.ShipPlacement
             var placedShips = new List<PlacedShip>();
             
             var freeCoordinates = GetListOfAllFreeCoordinates();
-            
-            foreach (var (shipName, shipSize) in unplacedShips)
+
+            foreach (var unplacedShip in unplacedShips)
             {
-                var placementCoordinates = FindPlacementCoordinatesForShip(shipSize, freeCoordinates);
+                var placementCoordinates = FindPlacementCoordinatesForShip(unplacedShip.Size, freeCoordinates);
 
                 foreach (var coordinate in placementCoordinates)
                 {
                     freeCoordinates.Remove(coordinate);
                 }
 
-                var placedShip = new PlacedShip(
-                    shipName,
-                    shipSize,
-                    placementCoordinates);
+                var placedShip = new PlacedShip(unplacedShip.ShipType, placementCoordinates);
                 
                 placedShips.Add(placedShip);
             }
@@ -107,67 +103,67 @@ namespace Battleships.Core.ShipPlacement
         }
 
         private static List<Coordinate> GetCoordinatesOfPlacementProposition(
-            Coordinate startingPoint,
+            Coordinate startingCoordinates,
             int shipSize,
             PlacementDirection direction)
         {
             return direction switch
             {
-                PlacementDirection.Up => GetCoordinatesForUpDirectionPlacement(startingPoint, shipSize),
-                PlacementDirection.Down => GetCoordinatesForDownDirectionPlacement(startingPoint, shipSize),
-                PlacementDirection.Left => GetCoordinatesForLeftDirectionPlacement(startingPoint, shipSize),
-                PlacementDirection.Right => GetCoordinatesForRightDirectionPlacement(startingPoint, shipSize),
+                PlacementDirection.Up => GetCoordinatesForUpDirectionPlacement(startingCoordinates, shipSize),
+                PlacementDirection.Down => GetCoordinatesForDownDirectionPlacement(startingCoordinates, shipSize),
+                PlacementDirection.Left => GetCoordinatesForLeftDirectionPlacement(startingCoordinates, shipSize),
+                PlacementDirection.Right => GetCoordinatesForRightDirectionPlacement(startingCoordinates, shipSize),
                 _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, "Not Supported direction")
             };
         }
 
         private static List<Coordinate> GetCoordinatesForUpDirectionPlacement(
-            Coordinate startingPoint, 
+            Coordinate startingCoordinates, 
             int shipSize)
         {
             var coordinates = new List<Coordinate>();
             for (var i = 0; i < shipSize; i++)
             {
-                coordinates.Add(new Coordinate(startingPoint.Row + i, startingPoint.Column));
+                coordinates.Add(new Coordinate(startingCoordinates.Row + i, startingCoordinates.Column));
             }
 
             return coordinates;
         } 
         
         private static List<Coordinate> GetCoordinatesForDownDirectionPlacement(
-            Coordinate startingPoint,
+            Coordinate startingCoordinates,
             int shipSize)
         {
             var coordinates = new List<Coordinate>();
             for (var i = 0; i < shipSize; i++)
             {
-                coordinates.Add(new Coordinate(startingPoint.Row - i, startingPoint.Column));
+                coordinates.Add(new Coordinate(startingCoordinates.Row - i, startingCoordinates.Column));
             }
 
             return coordinates;
         }
 
         private static List<Coordinate> GetCoordinatesForLeftDirectionPlacement(
-            Coordinate startingPoint,
+            Coordinate startingCoordinates,
             int shipSize)
         {
             var coordinates = new List<Coordinate>();
             for (var i = 0; i < shipSize; i++)
             {
-                coordinates.Add(new Coordinate(startingPoint.Row, startingPoint.Column - i));
+                coordinates.Add(new Coordinate(startingCoordinates.Row, startingCoordinates.Column - i));
             }
 
             return coordinates;
         }
         
         private static List<Coordinate> GetCoordinatesForRightDirectionPlacement(
-            Coordinate startingPoint,
+            Coordinate startingCoordinates,
             int shipSize)
         {
             var coordinates = new List<Coordinate>();
             for (var i = 0; i < shipSize; i++)
             {
-                coordinates.Add(new Coordinate(startingPoint.Row, startingPoint.Column + i));
+                coordinates.Add(new Coordinate(startingCoordinates.Row, startingCoordinates.Column + i));
             }
 
             return coordinates;

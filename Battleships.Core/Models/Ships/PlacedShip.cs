@@ -2,8 +2,15 @@
 
 namespace Battleships.Core.Models.Ships
 {
-    public record PlacedShip(
-        string Name,
-        int Size,
-        List<Coordinate> Coordinates);
+    public record PlacedShip : UnplacedShip
+    {
+        public List<Coordinate> Coordinates { get; }
+
+        public PlacedShip(
+            ShipType shipType,
+            List<Coordinate> coordinates) : base(shipType)
+        {
+            Coordinates = coordinates;
+        }
+    }
 }
