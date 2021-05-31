@@ -1,9 +1,8 @@
 ﻿namespace Battleships.Core.Models
 {
-    public enum FieldState
+    public enum CoordinateState
     {
-        Undefined = 0,
-        Empty,
+        Free,
         Miss,
         Hit,
         Sunk
