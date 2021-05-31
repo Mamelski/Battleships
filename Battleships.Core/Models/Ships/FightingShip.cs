@@ -5,13 +5,13 @@ namespace Battleships.Core.Models.Ships
 {
     public record FightingShip : PlacedShip
     {
-        public bool IsSunk  => !NotHitCoordinates.Any();
+        public bool IsSunk => !NotHitCoordinates.Any();
         public List<Coordinate> NotHitCoordinates { get; } 
         
         public FightingShip(
-            ShipType shipType,
+            ShipClass shipClass,
             List<Coordinate> coordinates)
-            : base(shipType, coordinates)
+            : base(shipClass, coordinates)
         {
             NotHitCoordinates = coordinates.Select(c => c).ToList();
         }

@@ -12,9 +12,9 @@ namespace Battleships.Core.Tests
     {
         private readonly List<UnplacedShip> _unplacedShips = new()
         {
-            new UnplacedShip(ShipType.Battleship),
-            new UnplacedShip(ShipType.Destroyer),
-            new UnplacedShip(ShipType.Destroyer)
+            new UnplacedShip(ShipClass.Battleship),
+            new UnplacedShip(ShipClass.Destroyer),
+            new UnplacedShip(ShipClass.Destroyer)
         };
         
         private readonly RandomShipPlacer _sut = new();
@@ -32,8 +32,8 @@ namespace Battleships.Core.Tests
         {
             var placedShips = _sut.PlaceShips(_unplacedShips);
 
-            var placedShipTypes = placedShips.Select(ship => ship.ShipType);
-            var expectedTypes = _unplacedShips.Select(ship => ship.ShipType);
+            var placedShipTypes = placedShips.Select(ship => ship.ShipClass);
+            var expectedTypes = _unplacedShips.Select(ship => ship.ShipClass);
             
             placedShipTypes.ShouldBe(expectedTypes);
         }

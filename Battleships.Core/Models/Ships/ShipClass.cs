@@ -1,6 +1,6 @@
 ﻿namespace Battleships.Core.Models.Ships
 {
-    public enum ShipType
+    public enum ShipClass
     {
         Battleship,
         Destroyer

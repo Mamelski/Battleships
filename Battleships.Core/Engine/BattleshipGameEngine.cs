@@ -41,7 +41,7 @@ namespace Battleships.Core.Engine
             foreach (var placedShip in placedShips)
             {
                 var fightingShip = new FightingShip(
-                    placedShip.ShipType,
+                    placedShip.ShipClass,
                     placedShip.Coordinates);
                 
                 _fightingShips.Add(fightingShip);

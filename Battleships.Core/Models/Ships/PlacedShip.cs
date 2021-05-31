@@ -7,9 +7,9 @@ namespace Battleships.Core.Models.Ships
         public List<Coordinate> Coordinates { get; }
 
         public PlacedShip(
-            ShipType shipType,
+            ShipClass shipClass,
             List<Coordinate> coordinates)
-            : base(shipType)
+            : base(shipClass)
         {
             Coordinates = coordinates;
         }

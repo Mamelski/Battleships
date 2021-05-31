@@ -26,7 +26,7 @@ namespace Battleships.Core.ShipPlacement
                     freeCoordinates.Remove(coordinate);
                 }
 
-                var placedShip = new PlacedShip(unplacedShip.ShipType, placementCoordinates);
+                var placedShip = new PlacedShip(unplacedShip.ShipClass, placementCoordinates);
                 
                 placedShips.Add(placedShip);
             }
