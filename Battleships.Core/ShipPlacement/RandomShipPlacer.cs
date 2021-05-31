@@ -8,25 +8,34 @@ using Battleships.Core.Utils;
 
 namespace Battleships.Core.ShipPlacement
 {
-    public class RandomShipPlacementStrategy : IShipPlacementStrategy
+    public class RandomShipPlacer
     {
         private readonly Random _random = new();
         
-        public void AssignCoordinatesToShips(List<Ship> ships)
+        public List<PlacedShip> PlaceShips(IEnumerable<UnplacedShip> unplacedShips)
         {
+            var placedShips = new List<PlacedShip>();
+            
             var allFreeCoordinates = GetListOfAllFreeCoordinates();
             
-            foreach (var ship in ships)
+            foreach (var (shipName, shipSize) in unplacedShips)
             {
-                var coordinatesForShip = FindCoordinatesForShip(ship.Size, allFreeCoordinates);
+                var placementCoordinates = FindCoordinatesForShip(shipSize, allFreeCoordinates);
 
-                foreach (var coordinate in coordinatesForShip)
+                foreach (var coordinate in placementCoordinates)
                 {
                     allFreeCoordinates.Remove(coordinate);
                 }
 
-                ship.Coordinates = coordinatesForShip;
+                var placedShip = new PlacedShip(
+                    shipName,
+                    shipSize,
+                    placementCoordinates);
+                
+                placedShips.Add(placedShip);
             }
+
+            return placedShips;
         }
 
         private static List<Coordinate> GetListOfAllFreeCoordinates()
