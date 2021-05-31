@@ -1,4 +1,4 @@
-﻿namespace Battleships.Core.Models
+﻿namespace Battleships.Core.Models.Ships
 {
     public record Destroyer: Ship
     {
