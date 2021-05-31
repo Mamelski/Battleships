@@ -1,4 +1,4 @@
-﻿namespace Battleships.Core.ShipPlacement
+﻿namespace Battleships.Core.Models
 {
     public enum PlacementDirection
     {

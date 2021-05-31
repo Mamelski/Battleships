@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Battleships.Core.Models.Ships;
-using Battleships.Core.ShipPlacement;
 using Battleships.Core.Utils;
 using Shouldly;
 using Xunit;

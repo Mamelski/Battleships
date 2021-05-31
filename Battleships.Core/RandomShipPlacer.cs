@@ -5,7 +5,7 @@ using Battleships.Core.Models;
 using Battleships.Core.Models.Ships;
 using Battleships.Core.Utils;
 
-namespace Battleships.Core.ShipPlacement
+namespace Battleships.Core
 {
     public class RandomShipPlacer
     {

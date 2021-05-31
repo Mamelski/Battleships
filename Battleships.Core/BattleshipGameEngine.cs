@@ -3,7 +3,7 @@ using System.Linq;
 using Battleships.Core.Models;
 using Battleships.Core.Models.Ships;
 
-namespace Battleships.Core.Engine
+namespace Battleships.Core
 {
     public class BattleshipGameEngine
     {
