@@ -1,5 +1,4 @@
-﻿using System;
-using Battleships.Core.Utils;
+﻿using Battleships.Core.Utils;
 
 namespace Battleships.Core.Models.Ships
 {
