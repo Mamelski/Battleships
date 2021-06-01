@@ -20,7 +20,7 @@ namespace Battleships.Core.Models
             {
                 for (var column = 0; column < Consts.Columns; column++)
                 {
-                    _innerBoard[row, column] = CoordinateState.Free;
+                    _innerBoard[row, column] = CoordinateState.Unknown;
                 }
             }
         }

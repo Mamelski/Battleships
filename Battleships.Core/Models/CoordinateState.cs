@@ -2,7 +2,7 @@
 {
     public enum CoordinateState
     {
-        Free,
+        Unknown,
         Miss,
         Hit,
         Sunk

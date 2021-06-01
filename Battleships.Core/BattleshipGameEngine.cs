@@ -17,7 +17,7 @@ namespace Battleships.Core
         
         public GameState MakeMove(Coordinate shotCoordinate)
         {
-            if (_board[shotCoordinate] != CoordinateState.Free)
+            if (_board[shotCoordinate] != CoordinateState.Unknown)
             {
                 return new GameState(
                     _board,
@@ -25,8 +25,8 @@ namespace Battleships.Core
                     false);
             }
 
-            var moveResult = TryToHitShip(shotCoordinate);
-            UpdateBoard(moveResult, shotCoordinate);
+            var (moveResult, hitShip) = TryToHitShip(shotCoordinate);
+            UpdateBoard(moveResult, hitShip, shotCoordinate);
             
             var isGameFinished = _fightingShips.All(fightingShip => fightingShip.IsSunk);
 
@@ -48,20 +48,20 @@ namespace Battleships.Core
             }
         }
 
-        private MoveResult TryToHitShip(Coordinate shotCoordinate)
+        private (MoveResult, FightingShip) TryToHitShip(Coordinate shotCoordinate)
         {
             var hitShip = FindHitShip(shotCoordinate);
 
             if (hitShip == null)
             {
-                return MoveResult.Miss;
+                return (MoveResult.Miss, null);
             }
             
             hitShip.NotHitCoordinates.Remove(shotCoordinate);
             
             return hitShip.IsSunk 
-                ? MoveResult.Sink 
-                : MoveResult.Hit;
+                ? (MoveResult.Sink, hitShip)
+                : (MoveResult.Hit, hitShip);
         }
         
         private FightingShip FindHitShip(Coordinate shotCoordinate) 
@@ -69,13 +69,23 @@ namespace Battleships.Core
                 .SingleOrDefault(fightingShip => fightingShip.NotHitCoordinates
                     .Contains(shotCoordinate));
         
-        private void UpdateBoard(MoveResult moveResult, Coordinate shotCoordinate)
+        private void UpdateBoard(
+            MoveResult moveResult,
+            FightingShip fightingShip,
+            Coordinate shotCoordinate)
         {
+            if (fightingShip?.IsSunk != null && fightingShip.IsSunk)
+            {
+                foreach (var sunkShipCoordinate in fightingShip.Coordinates)
+                {
+                    _board[sunkShipCoordinate] = CoordinateState.Sunk;
+                }
+            }
+            
             _board[shotCoordinate] = moveResult switch
             {
                 MoveResult.Miss => CoordinateState.Miss,
                 MoveResult.Hit => CoordinateState.Hit,
-                MoveResult.Sink => CoordinateState.Sunk,
                 _ => _board[shotCoordinate]
             };
         }
