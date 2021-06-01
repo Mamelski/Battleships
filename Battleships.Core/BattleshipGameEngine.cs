@@ -74,12 +74,14 @@ namespace Battleships.Core
             FightingShip fightingShip,
             Coordinate shotCoordinate)
         {
-            if (fightingShip?.IsSunk != null && fightingShip.IsSunk)
+            if (moveResult == MoveResult.Sink)
             {
                 foreach (var sunkShipCoordinate in fightingShip.Coordinates)
                 {
                     _board[sunkShipCoordinate] = CoordinateState.Sunk;
                 }
+
+                return;
             }
             
             _board[shotCoordinate] = moveResult switch
