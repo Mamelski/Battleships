@@ -26,8 +26,8 @@ namespace Battleships.Core.Tests
             var sut = new BattleshipGameEngine(new[] {_placedShip});
             var shot = new Coordinate(1, 1);
 
-            var firstResult = sut.MakeMove(shot);
-            var resultAfterIllegalMove = sut.MakeMove(shot);
+            var firstResult = sut.Shoot(shot);
+            var resultAfterIllegalMove = sut.Shoot(shot);
 
             resultAfterIllegalMove.MoveResult.ShouldBe(MoveResult.Illegal);
             resultAfterIllegalMove.IsGameFinished.ShouldBe(firstResult.IsGameFinished);
@@ -40,7 +40,7 @@ namespace Battleships.Core.Tests
             var sut = new BattleshipGameEngine(new[] {_placedShip});
             var shot = new Coordinate(1, 1);
 
-            var result = sut.MakeMove(shot);
+            var result = sut.Shoot(shot);
             
             result.Board[shot].ShouldBe(CoordinateState.Miss);
 
@@ -59,7 +59,7 @@ namespace Battleships.Core.Tests
             var sut = new BattleshipGameEngine(new[] {_placedShip});
             var shot = new Coordinate(0, 0);
 
-            var result = sut.MakeMove(shot);
+            var result = sut.Shoot(shot);
             
             result.Board[shot].ShouldBe(CoordinateState.Hit);
 
@@ -80,7 +80,7 @@ namespace Battleships.Core.Tests
             GameState result = null;
             foreach (var coordinate in _placedShip.Coordinates)
             {
-                result = sut.MakeMove(coordinate);
+                result = sut.Shoot(coordinate);
             }
             
             result.ShouldNotBe(null);

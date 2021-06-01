@@ -15,7 +15,7 @@ namespace Battleships.Core
             PrepareFightingShips(placedShips);
         }
         
-        public GameState MakeMove(Coordinate shotCoordinate)
+        public GameState Shoot(Coordinate shotCoordinate)
         {
             if (_board[shotCoordinate] != CoordinateState.Unknown)
             {
