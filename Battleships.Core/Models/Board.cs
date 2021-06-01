@@ -24,5 +24,11 @@ namespace Battleships.Core.Models
                 }
             }
         }
+
+        public CoordinateState this[int row, int column]
+        {
+            get => _innerBoard[row, column];
+            set => _innerBoard[row, column] = value;
+        }
     }
 }

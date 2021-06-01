@@ -18,12 +18,12 @@ namespace Battleships.Core
         }
 
 
-        public void StartGame()
+        public Board StartGame()
         {
             var unplacedShips = ProduceShips();
             var placedShips = _shipPlacer.PlaceShips(unplacedShips);
 
-            _battleshipGameEngine.SetupBoard(placedShips);
+            return _battleshipGameEngine.SetupBoard(placedShips);
         }
 
         public GameState Shoot(Coordinate coordinate)
