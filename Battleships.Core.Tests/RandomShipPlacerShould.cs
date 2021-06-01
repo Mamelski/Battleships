@@ -79,8 +79,8 @@ namespace Battleships.Core.Tests
 
             foreach (var placedShip in placedShips)
             {
-               placedShip.Coordinates.ShouldAllBe(coordinate => coordinate.Row > 0 && coordinate.Row <= Consts.Rows);
-               placedShip.Coordinates.ShouldAllBe(coordinate => coordinate.Column > 0 && coordinate.Row <= Consts.Columns);
+               placedShip.Coordinates.ShouldAllBe(coordinate => coordinate.Row >= 0 && coordinate.Row <= Consts.Rows);
+               placedShip.Coordinates.ShouldAllBe(coordinate => coordinate.Column >= 0 && coordinate.Row <= Consts.Columns);
             }
         }
     }
