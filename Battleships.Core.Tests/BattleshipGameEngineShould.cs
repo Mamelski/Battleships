@@ -23,7 +23,9 @@ namespace Battleships.Core.Tests
         [Fact]
         public void ReturnCorrectStateAfterIllegalShot()
         {
-            var sut = new BattleshipGameEngine(new[] {_placedShip});
+            var sut = new BattleshipGameEngine();
+            sut.SetupBoard(new[] {_placedShip});
+            
             var shot = new Coordinate(1, 1);
 
             var firstResult = sut.Shoot(shot);
@@ -37,7 +39,9 @@ namespace Battleships.Core.Tests
         [Fact]
         public void ReturnCorrectStateAfterMissShot()
         {
-            var sut = new BattleshipGameEngine(new[] {_placedShip});
+            var sut = new BattleshipGameEngine();
+            sut.SetupBoard(new[] {_placedShip});
+            
             var shot = new Coordinate(1, 1);
 
             var result = sut.Shoot(shot);
@@ -56,7 +60,9 @@ namespace Battleships.Core.Tests
         [Fact]
         public void ReturnCorrectStateAfterHitShot()
         {
-            var sut = new BattleshipGameEngine(new[] {_placedShip});
+            var sut = new BattleshipGameEngine();
+            sut.SetupBoard(new[] {_placedShip});
+            
             var shot = new Coordinate(0, 0);
 
             var result = sut.Shoot(shot);
@@ -75,7 +81,8 @@ namespace Battleships.Core.Tests
         [Fact]
         public void ReturnCorrectStateAfterSinkTheLastShipShot()
         {
-            var sut = new BattleshipGameEngine(new[] {_placedShip});
+            var sut = new BattleshipGameEngine();
+            sut.SetupBoard(new[] {_placedShip});
 
             GameState result = null;
             foreach (var coordinate in _placedShip.Coordinates)

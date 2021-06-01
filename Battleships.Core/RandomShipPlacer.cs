@@ -7,7 +7,12 @@ using Battleships.Core.Utils;
 
 namespace Battleships.Core
 {
-    public class RandomShipPlacer
+    public interface IShipPlacer
+    {
+        List<PlacedShip> PlaceShips(IEnumerable<UnplacedShip> unplacedShips);
+    }
+
+    public class RandomShipPlacer : IShipPlacer
     {
         private readonly Random _random = new();
         

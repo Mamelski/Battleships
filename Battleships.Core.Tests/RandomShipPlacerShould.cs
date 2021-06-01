@@ -9,13 +9,14 @@ namespace Battleships.Core.Tests
 {
     public class RandomShipPlacerShould
     {
-        private readonly List<UnplacedShip> _unplacedShips;
-        private readonly RandomShipPlacer _sut = new();
-
-        public RandomShipPlacerShould()
+        private readonly List<UnplacedShip> _unplacedShips =  new ()
         {
-            _unplacedShips = Shipyard.ProduceShips();
-        }
+            new UnplacedShip(ShipClass.Battleship),
+            new UnplacedShip(ShipClass.Destroyer),
+            new UnplacedShip(ShipClass.Destroyer)
+        };
+        
+        private readonly RandomShipPlacer _sut = new();
 
         [Fact]
         public void ReturnTheSameNumberOfPlacedShipsAsGivenNumberOfUnplacedShips()

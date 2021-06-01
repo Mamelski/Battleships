@@ -1,23 +1,44 @@
-﻿using Battleships.Core.Models;
+﻿using System.Collections.Generic;
+using Battleships.Core.Models;
+using Battleships.Core.Models.Ships;
 
 namespace Battleships.Core
 {
     public class GameManager
     {
-        private readonly RandomShipPlacer _randomShipPlacer = new();
-        private BattleshipGameEngine _battleshipGameEngine;
-        
+        private readonly IShipPlacer _shipPlacer;
+        private readonly IBattleshipGameEngine _battleshipGameEngine;
+
+        public GameManager(
+            IShipPlacer shipPlacer,
+            IBattleshipGameEngine battleshipGameEngine)
+        {
+            _shipPlacer = shipPlacer;
+            _battleshipGameEngine = battleshipGameEngine;
+        }
+
+
         public void StartGame()
         {
-            var unplacedShips = Shipyard.ProduceShips();
-            var placedShips = _randomShipPlacer.PlaceShips(unplacedShips);
+            var unplacedShips = ProduceShips();
+            var placedShips = _shipPlacer.PlaceShips(unplacedShips);
 
-            _battleshipGameEngine = new BattleshipGameEngine(placedShips);
+            _battleshipGameEngine.SetupBoard(placedShips);
         }
 
         public GameState Shoot(Coordinate coordinate)
         {
             return _battleshipGameEngine.Shoot(coordinate);
+        }
+
+        private List<UnplacedShip> ProduceShips()
+        {
+            return new ()
+            {
+                new UnplacedShip(ShipClass.Battleship),
+                new UnplacedShip(ShipClass.Destroyer),
+                new UnplacedShip(ShipClass.Destroyer)
+            };
         }
     }
 }

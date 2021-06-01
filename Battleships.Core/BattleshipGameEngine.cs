@@ -5,16 +5,31 @@ using Battleships.Core.Models.Ships;
 
 namespace Battleships.Core
 {
-    public class BattleshipGameEngine
+    public interface IBattleshipGameEngine
+    {
+        GameState Shoot(Coordinate shotCoordinate);
+        Board SetupBoard(IEnumerable<PlacedShip> placedShips);
+    }
+
+    public class BattleshipGameEngine : IBattleshipGameEngine
     {
         private readonly Board _board = new();
         private readonly List<FightingShip> _fightingShips = new();
         
-        public BattleshipGameEngine(IEnumerable<PlacedShip> placedShips)
+        public Board SetupBoard(IEnumerable<PlacedShip> placedShips)
         {
-            PrepareFightingShips(placedShips);
+            foreach (var placedShip in placedShips)
+            {
+                var fightingShip = new FightingShip(
+                    placedShip.ShipClass,
+                    placedShip.Coordinates);
+                
+                _fightingShips.Add(fightingShip);
+            }
+
+            return _board;
         }
-        
+
         public GameState Shoot(Coordinate shotCoordinate)
         {
             if (_board[shotCoordinate] != CoordinateState.Unknown)
@@ -34,18 +49,6 @@ namespace Battleships.Core
                 _board,
                 moveResult,
                 isGameFinished);
-        }
-        
-        private void PrepareFightingShips(IEnumerable<PlacedShip> placedShips)
-        {
-            foreach (var placedShip in placedShips)
-            {
-                var fightingShip = new FightingShip(
-                    placedShip.ShipClass,
-                    placedShip.Coordinates);
-                
-                _fightingShips.Add(fightingShip);
-            }
         }
 
         private (MoveResult, FightingShip) TryToHitShip(Coordinate shotCoordinate)
