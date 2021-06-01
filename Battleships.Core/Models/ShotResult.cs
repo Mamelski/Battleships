@@ -1,6 +1,6 @@
 ﻿namespace Battleships.Core.Models
 {
-    public enum MoveResult
+    public enum ShotResult
     {
         Illegal,
         Miss,

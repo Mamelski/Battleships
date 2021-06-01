@@ -36,7 +36,7 @@ namespace Battleships.Core
             {
                 return new GameState(
                     _board,
-                    MoveResult.Illegal,
+                    ShotResult.Illegal,
                     false);
             }
 
@@ -51,20 +51,20 @@ namespace Battleships.Core
                 isGameFinished);
         }
 
-        private (MoveResult, FightingShip) TryToHitShip(Coordinate shotCoordinate)
+        private (ShotResult, FightingShip) TryToHitShip(Coordinate shotCoordinate)
         {
             var hitShip = FindHitShip(shotCoordinate);
 
             if (hitShip == null)
             {
-                return (MoveResult.Miss, null);
+                return (ShotResult.Miss, null);
             }
             
             hitShip.NotHitCoordinates.Remove(shotCoordinate);
             
             return hitShip.IsSunk 
-                ? (MoveResult.Sink, hitShip)
-                : (MoveResult.Hit, hitShip);
+                ? (ShotResult.Sink, hitShip)
+                : (ShotResult.Hit, hitShip);
         }
         
         private FightingShip FindHitShip(Coordinate shotCoordinate) 
@@ -73,11 +73,11 @@ namespace Battleships.Core
                     .Contains(shotCoordinate));
         
         private void UpdateBoard(
-            MoveResult moveResult,
+            ShotResult shotResult,
             FightingShip fightingShip,
             Coordinate shotCoordinate)
         {
-            if (moveResult == MoveResult.Sink)
+            if (shotResult == ShotResult.Sink)
             {
                 foreach (var sunkShipCoordinate in fightingShip.Coordinates)
                 {
@@ -87,10 +87,10 @@ namespace Battleships.Core
                 return;
             }
             
-            _board[shotCoordinate] = moveResult switch
+            _board[shotCoordinate] = shotResult switch
             {
-                MoveResult.Miss => CoordinateState.Miss,
-                MoveResult.Hit => CoordinateState.Hit,
+                ShotResult.Miss => CoordinateState.Miss,
+                ShotResult.Hit => CoordinateState.Hit,
                 _ => _board[shotCoordinate]
             };
         }

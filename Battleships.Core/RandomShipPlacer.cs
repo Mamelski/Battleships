@@ -11,6 +11,8 @@ namespace Battleships.Core
     {
         List<PlacedShip> PlaceShips(IEnumerable<UnplacedShip> unplacedShips);
     }
+    
+    // TODO ships cannot be placed together
 
     public class RandomShipPlacer : IShipPlacer
     {

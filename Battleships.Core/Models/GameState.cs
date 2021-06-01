@@ -2,6 +2,6 @@
 {
     public record GameState(
         Board Board,
-        MoveResult MoveResult,
+        ShotResult ShotResult,
         bool IsGameFinished);
 }

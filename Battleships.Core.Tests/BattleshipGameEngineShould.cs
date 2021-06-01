@@ -31,7 +31,7 @@ namespace Battleships.Core.Tests
             var firstResult = sut.Shoot(shot);
             var resultAfterIllegalMove = sut.Shoot(shot);
 
-            resultAfterIllegalMove.MoveResult.ShouldBe(MoveResult.Illegal);
+            resultAfterIllegalMove.ShotResult.ShouldBe(ShotResult.Illegal);
             resultAfterIllegalMove.IsGameFinished.ShouldBe(firstResult.IsGameFinished);
             resultAfterIllegalMove.Board.ShouldBe(firstResult.Board);
         }
@@ -53,7 +53,7 @@ namespace Battleships.Core.Tests
                 result.Board[coordinate].ShouldBe(CoordinateState.Unknown);
             }
             
-            result.MoveResult.ShouldBe(MoveResult.Miss);
+            result.ShotResult.ShouldBe(ShotResult.Miss);
             result.IsGameFinished.ShouldBe(false);
         }
         
@@ -74,7 +74,7 @@ namespace Battleships.Core.Tests
                 result.Board[coordinate].ShouldBe(CoordinateState.Unknown);
             }
             
-            result.MoveResult.ShouldBe(MoveResult.Hit);
+            result.ShotResult.ShouldBe(ShotResult.Hit);
             result.IsGameFinished.ShouldBe(false);
         }
         
@@ -102,7 +102,7 @@ namespace Battleships.Core.Tests
                 result.Board[coordinate].ShouldBe(CoordinateState.Sunk);
             }
 
-            result.MoveResult.ShouldBe(MoveResult.Sink);
+            result.ShotResult.ShouldBe(ShotResult.Sink);
             result.IsGameFinished.ShouldBe(true);
         }
         
