@@ -9,7 +9,7 @@ namespace Battleships.Cmd
         public static void PrintIntroduction(Board board)
         {
             Console.WriteLine();
-            PrintInColor(ConsoleColor.Yellow, "Hello Commander! ");
+            PrintInColor(ConsoleColor.DarkYellow, "Hello Commander! ");
             Console.Write("Enemies are at our waters and we need to ");
             PrintInColor(ConsoleColor.DarkRed, "destroy them!");
             Console.WriteLine();
@@ -64,6 +64,31 @@ namespace Battleships.Cmd
             Console.ForegroundColor = color;
             Console.Write(message);
             Console.ResetColor();
+        }
+
+        public static void PrintEndGameMessage()
+        {
+            PrintInColor(ConsoleColor.DarkGreen, "We won Captain! Our enemies are defeated" );
+
+            Console.WriteLine("Press ENTER to close me ...");
+            Console.ReadKey();
+        }
+
+        public static void PrintManualIntroduction()
+        {
+            PrintInColor(ConsoleColor.DarkYellow, "Great choice Captain!");
+            Console.WriteLine();
+
+            Console.Write("To shoot just provide me coordinates (for example ");
+            PrintInColor(ConsoleColor.Green, "\"a1\" ");
+            Console.WriteLine(") and our artillery will fire.");
+
+            Console.Write("Remember that we have to save ammunition and you ");
+            PrintInColor(ConsoleColor.DarkRed, "cannot");
+            Console.WriteLine(" shoot two times on the same coordinate.");
+            Console.WriteLine();
+            
+            Console.WriteLine("Now start shooting and enter coordinate:");
         }
         
         private static void PrintLegend()

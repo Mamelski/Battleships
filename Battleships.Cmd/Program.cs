@@ -59,26 +59,21 @@ namespace Battleships.Cmd
         private static void RunAutoMode(GameManager gameManager)
         {
             var random = new Random();
-            var allCoordinates = CoordinateHelper.GetAllCoordinates();
+            var coordinatesToShoot = CoordinateHelper.GetAllCoordinates();
 
-            while (allCoordinates.Any())
+            while (coordinatesToShoot.Any())
             {
-                var randomCoordinateIndex = random.Next(allCoordinates.Count);
-                var randomCoordinate = allCoordinates.ElementAt(randomCoordinateIndex);
+                var randomCoordinateIndex = random.Next(coordinatesToShoot.Count);
+                var randomCoordinate = coordinatesToShoot.ElementAt(randomCoordinateIndex);
                 
-                allCoordinates.Remove(randomCoordinate);
+                coordinatesToShoot.Remove(randomCoordinate);
 
                 var result = gameManager.Shoot(randomCoordinate);
                 ConsolePrinter.PrintBoard(result.Board);
                 
                 if (result.IsGameFinished)
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine("We won Captain! Our enemies are defeated");
-                    Console.ResetColor();
-
-                    Console.WriteLine("Press ENTER to close me ...");
-                    Console.ReadKey();
+                    ConsolePrinter.PrintEndGameMessage();
                     return;
                 }
                 
@@ -88,8 +83,9 @@ namespace Battleships.Cmd
         
         private static void RunManualMode(GameManager gameManager)
         {
-            Console.WriteLine("Remember that we have to save ammunition and you cannot shoot two time on the same coordinate.");
-            Console.WriteLine();
+            
+            ConsolePrinter.PrintManualIntroduction();
+            
             // while (allCoordinates.Any())
             {
 
@@ -107,8 +103,8 @@ namespace Battleships.Cmd
                 ConsolePrinter.PrintBoard(result.Board);
                 Thread.Sleep(100);
             }
-            Console.WriteLine("MANUAL");
         }
+        
         private static Coordinate ParseMove(string move)
         {
             if (move.Length != 2)
