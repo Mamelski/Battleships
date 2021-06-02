@@ -83,46 +83,47 @@ namespace Battleships.Cmd
         
         private static void RunManualMode(GameManager gameManager)
         {
-            
             ConsolePrinter.PrintManualIntroduction();
             
-            // while (allCoordinates.Any())
+            var isGameFinished = false;
+            while (!isGameFinished)
             {
-
-                // var randomCoordinateIndex = random.Next(allCoordinates.Count);
-                // var randomCoordinate = allCoordinates.ElementAt(randomCoordinateIndex);
-
-                //  allCoordinates.Remove(randomCoordinate);
-                
-                
                 var move = Console.ReadLine();
                 var shotCoordinates = ParseMove(move);
                 var result = gameManager.Shoot(shotCoordinates);
-                
-                // var result = gameManager.Shoot(randomCoordinate);
-                ConsolePrinter.PrintBoard(result.Board);
-                Thread.Sleep(100);
+
+                ConsolePrinter.PrintStateAfterMove(result);
+
+                isGameFinished = result.IsGameFinished;
             }
         }
         
         private static Coordinate ParseMove(string move)
         {
-            if (move.Length != 2)
+            int row, column;
+            string lower;
+            switch (move.Length)
             {
-                throw new IncorrectMoveException();
+                case 2:
+                    lower = move.ToLower();
+                    row = lower[0] - 96;
+                    column = lower[1] - 48;
+                    break;
+                case 3:
+                    lower = move.ToLower();
+                    row = lower[0] - 96;
+                    column = (lower[1] - 48) * 10 + lower[2] - 48;
+                    break;
+                default:
+                    throw new IncorrectMoveException();
             }
-            
-            var lower = move.ToLower();
-
-            var row = lower[0] - 96;
-            var column = lower[1] - 48;
 
             if (column is < 1 or > 10 || row is < 1 or > 10)
             {
                 throw new IncorrectMoveException();
             }
             
-            return new Coordinate(row, column);
+            return new Coordinate(row - 1, column - 1);
         }
        
     }
