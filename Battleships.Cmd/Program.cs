@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Battleships.Core;
@@ -32,13 +31,13 @@ namespace Battleships.Cmd
 
         private static GameMode ReadGameMode()
         {
-            var mode = Console.ReadLine();
-            
             while (true)
             {
+                var mode = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(mode))
                 {
                     ConsolePrinter.PrintInColor(ConsoleColor.DarkRed, "Invalid mode");
+                    Console.WriteLine();
                     continue;
                 }
                 
@@ -53,13 +52,14 @@ namespace Battleships.Cmd
                 }
                 
                 ConsolePrinter.PrintInColor(ConsoleColor.DarkRed, "Invalid mode");
+                Console.WriteLine();
             }
         }
 
         private static void RunAutoMode(GameManager gameManager)
         {
             var random = new Random();
-            var allCoordinates = GetListOfAllFreeCoordinates();
+            var allCoordinates = CoordinateHelper.GetAllCoordinates();
 
             while (allCoordinates.Any())
             {
@@ -128,19 +128,6 @@ namespace Battleships.Cmd
             
             return new Coordinate(row, column);
         }
-        private static List<Coordinate> GetListOfAllFreeCoordinates()
-        {
-            var freeCoordinates = new List<Coordinate>();
-
-            for (var row = 0; row < Consts.Rows; row++)
-            {
-                for (var column = 0; column < Consts.Columns; column++)
-                {
-                    freeCoordinates.Add(new Coordinate(row,column));
-                }
-            }
-
-            return freeCoordinates;
-        }
+       
     }
 }

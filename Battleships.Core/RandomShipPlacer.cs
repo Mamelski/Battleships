@@ -22,7 +22,7 @@ namespace Battleships.Core
         {
             var placedShips = new List<PlacedShip>();
             
-            var freeCoordinates = GetListOfAllFreeCoordinates();
+            var freeCoordinates = CoordinateHelper.GetAllCoordinates();
 
             foreach (var unplacedShip in unplacedShips)
             {
@@ -41,21 +41,6 @@ namespace Battleships.Core
             return placedShips;
         }
 
-        private static List<Coordinate> GetListOfAllFreeCoordinates()
-        {
-            var freeCoordinates = new List<Coordinate>();
-
-            for (var row = 0; row < Consts.Rows; row++)
-            {
-                for (var column = 0; column < Consts.Columns; column++)
-                {
-                    freeCoordinates.Add(new Coordinate(row,column));
-                }
-            }
-
-            return freeCoordinates;
-        }
-        
         private List<Coordinate> FindPlacementCoordinatesForShip(
             int shipSize,
             ICollection<Coordinate> freeCoordinates)

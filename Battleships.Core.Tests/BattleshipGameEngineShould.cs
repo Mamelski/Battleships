@@ -10,7 +10,7 @@ namespace Battleships.Core.Tests
 {
     public class BattleshipGameEngineShould
     {
-        private readonly List<Coordinate> _allCoordinates = GetListOfAllCoordinates();
+        private readonly List<Coordinate> _allCoordinates = CoordinateHelper.GetAllCoordinates();
 
         private readonly PlacedShip _placedShip = new(ShipClass.Destroyer, new List<Coordinate>
         {
@@ -104,21 +104,6 @@ namespace Battleships.Core.Tests
 
             result.ShotResult.ShouldBe(ShotResult.Sink);
             result.IsGameFinished.ShouldBe(true);
-        }
-        
-        private static List<Coordinate> GetListOfAllCoordinates()
-        {
-            var allCoordinates = new List<Coordinate>();
-
-            for (var row = 0; row < Consts.Rows; row++)
-            {
-                for (var column = 0; column < Consts.Columns; column++)
-                {
-                    allCoordinates.Add(new Coordinate(row,column));
-                }
-            }
-
-            return allCoordinates;
         }
     }
 }
