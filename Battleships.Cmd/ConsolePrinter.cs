@@ -31,10 +31,10 @@ namespace Battleships.Cmd
             Console.WriteLine("Now you need to decide how we play this battle:");
             Console.WriteLine();
             Console.Write("- type ");
-            PrintInColor(ConsoleColor.Green, $"{GameMode.simulation}");
+            PrintInColor(ConsoleColor.Green, $"{GameMode.Auto}");
             Console.WriteLine(" to let me win this battle for us");
             Console.Write("- type ");
-            PrintInColor(ConsoleColor.Green, $"{GameMode.manual}");
+            PrintInColor(ConsoleColor.Green, $"{GameMode.Manual}");
             Console.WriteLine(" to fight without my help (I will still show you state of the battlefield)");
             Console.WriteLine();
         }
@@ -55,6 +55,15 @@ namespace Battleships.Cmd
                 Console.Write("|\n");
             }
             Console.WriteLine("    --------------------");
+        }
+        
+        public static void PrintInColor(
+            ConsoleColor color,
+            string message)
+        {
+            Console.ForegroundColor = color;
+            Console.Write(message);
+            Console.ResetColor();
         }
         
         private static void PrintLegend()
@@ -94,15 +103,6 @@ namespace Battleships.Cmd
                     Console.Write("  ");
                     break;
             }
-        }
-
-        private static void PrintInColor(
-            ConsoleColor color,
-            string message)
-        {
-            Console.ForegroundColor = color;
-            Console.Write(message);
-            Console.ResetColor();
         }
     }
 }

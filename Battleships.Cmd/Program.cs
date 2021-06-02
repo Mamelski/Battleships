@@ -10,67 +10,53 @@ namespace Battleships.Cmd
 {
     static class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var gameManager = new GameManager(new RandomShipPlacer(), new BattleshipGameEngine());
             var board = gameManager.StartGame();
             
             ConsolePrinter.PrintIntroduction(board);
 
-            while (true)
+            var mode = ReadGameMode();
+
+            switch (mode)
             {
-                var mode = Console.ReadLine();
-
-                if (string.IsNullOrWhiteSpace(mode))
-                {
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Invalid mode");
-                    Console.ResetColor();
-                    continue;
-                }
-
-                if (mode.ToLower().Equals(GameMode.manual.ToString()))
-                {
-                    //TODO manual
-                    Console.WriteLine("Remember that we have to save ammunition and you cannot shoot two time on the same coordinate.");
-                    Console.WriteLine();
-                    // while (allCoordinates.Any())
-                    {
-
-                        // var randomCoordinateIndex = random.Next(allCoordinates.Count);
-                        // var randomCoordinate = allCoordinates.ElementAt(randomCoordinateIndex);
-
-                        //  allCoordinates.Remove(randomCoordinate);
-                
-                
-                        var move = Console.ReadLine();
-                        var shotCoordinates = ParseMove(move);
-                        var result = gameManager.Shoot(shotCoordinates);
-                
-                        // var result = gameManager.Shoot(randomCoordinate);
-                       ConsolePrinter.PrintBoard(result.Board);
-                        Thread.Sleep(100);
-                    }
-                    Console.WriteLine("MANUAL");
-
+                case GameMode.Auto:
+                    RunAutoMode(gameManager);
                     break;
-                }
-
-                if (mode.ToLower().Equals(GameMode.simulation.ToString()))
-                {
-                    // TODO simulation
-                    Console.WriteLine("Great choice. Sit back, relax and watch me fight this battle for you");
-                    RunSimulationMode(gameManager);
-                    return;
-                }
-    
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("Invalid mode");
-                Console.ResetColor();
+                case GameMode.Manual:
+                    RunManualMode(gameManager);
+                    break;
             }
         }
 
-        private static void RunSimulationMode(GameManager gameManager)
+        private static GameMode ReadGameMode()
+        {
+            var mode = Console.ReadLine();
+            
+            while (true)
+            {
+                if (string.IsNullOrWhiteSpace(mode))
+                {
+                    ConsolePrinter.PrintInColor(ConsoleColor.DarkRed, "Invalid mode");
+                    continue;
+                }
+                
+                if (mode.Equals(GameMode.Manual.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return GameMode.Manual;
+                }
+
+                if (mode.Equals(GameMode.Auto.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return GameMode.Auto;
+                }
+                
+                ConsolePrinter.PrintInColor(ConsoleColor.DarkRed, "Invalid mode");
+            }
+        }
+
+        private static void RunAutoMode(GameManager gameManager)
         {
             var random = new Random();
             var allCoordinates = GetListOfAllFreeCoordinates();
@@ -99,9 +85,30 @@ namespace Battleships.Cmd
                 Thread.Sleep(250);
             }
         }
+        
+        private static void RunManualMode(GameManager gameManager)
+        {
+            Console.WriteLine("Remember that we have to save ammunition and you cannot shoot two time on the same coordinate.");
+            Console.WriteLine();
+            // while (allCoordinates.Any())
+            {
 
-     
+                // var randomCoordinateIndex = random.Next(allCoordinates.Count);
+                // var randomCoordinate = allCoordinates.ElementAt(randomCoordinateIndex);
 
+                //  allCoordinates.Remove(randomCoordinate);
+                
+                
+                var move = Console.ReadLine();
+                var shotCoordinates = ParseMove(move);
+                var result = gameManager.Shoot(shotCoordinates);
+                
+                // var result = gameManager.Shoot(randomCoordinate);
+                ConsolePrinter.PrintBoard(result.Board);
+                Thread.Sleep(100);
+            }
+            Console.WriteLine("MANUAL");
+        }
         private static Coordinate ParseMove(string move)
         {
             if (move.Length != 2)
@@ -121,9 +128,6 @@ namespace Battleships.Cmd
             
             return new Coordinate(row, column);
         }
-
-      
-        
         private static List<Coordinate> GetListOfAllFreeCoordinates()
         {
             var freeCoordinates = new List<Coordinate>();

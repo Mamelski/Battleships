@@ -2,7 +2,7 @@
 {
     public enum GameMode
     {
-        simulation,
-        manual
+        Auto,
+        Manual
     }
 }
