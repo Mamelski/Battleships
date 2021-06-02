@@ -88,7 +88,10 @@ namespace Battleships.Cmd
             var isGameFinished = false;
             while (!isGameFinished)
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 var move = Console.ReadLine();
+                Console.ResetColor();
+                
                 var shotCoordinates = ParseMove(move);
                 var result = gameManager.Shoot(shotCoordinates);
 
@@ -96,6 +99,7 @@ namespace Battleships.Cmd
 
                 isGameFinished = result.IsGameFinished;
             }
+            ConsolePrinter.PrintEndGameMessage();
         }
         
         private static Coordinate ParseMove(string move)
@@ -106,13 +110,13 @@ namespace Battleships.Cmd
             {
                 case 2:
                     lower = move.ToLower();
-                    row = lower[0] - 96;
-                    column = lower[1] - 48;
+                    column = lower[0] - 96;
+                    row = lower[1] - 48;
                     break;
                 case 3:
                     lower = move.ToLower();
-                    row = lower[0] - 96;
-                    column = (lower[1] - 48) * 10 + lower[2] - 48;
+                    column = lower[0] - 96;
+                    row = (lower[1] - 48) * 10 + lower[2] - 48;
                     break;
                 default:
                     throw new IncorrectMoveException();

@@ -37,6 +37,7 @@ namespace Battleships.Core
                 return new GameState(
                     _board,
                     ShotResult.Illegal,
+                    _fightingShips,
                     false);
             }
 
@@ -48,6 +49,7 @@ namespace Battleships.Core
             return new GameState(
                 _board,
                 moveResult,
+                _fightingShips,
                 isGameFinished);
         }
 

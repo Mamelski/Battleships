@@ -13,7 +13,12 @@ namespace Battleships.Core
     }
     
     // TODO ships cannot be placed together
-
+    // TODO test for returning listOfShips
+    // TODO invalid move handling 
+    // TODO add sprinting to auto mode 
+    // TODO auto and manual cyan 
+    // TODO console size
+    // TODO change change colors
     public class RandomShipPlacer : IShipPlacer
     {
         private readonly Random _random = new();

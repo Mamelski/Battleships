@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Battleships.Core.Models;
+using Battleships.Core.Models.Ships;
 using Battleships.Core.Utils;
 
 namespace Battleships.Cmd
@@ -69,6 +72,7 @@ namespace Battleships.Cmd
         public static void PrintEndGameMessage()
         {
             PrintInColor(ConsoleColor.DarkGreen, "We won Captain! Our enemies are defeated" );
+            Console.WriteLine();
 
             Console.WriteLine("Press ENTER to close me ...");
             Console.ReadKey();
@@ -76,11 +80,11 @@ namespace Battleships.Cmd
 
         public static void PrintManualIntroduction()
         {
-            PrintInColor(ConsoleColor.DarkYellow, "Great choice Captain!");
+            PrintInColor(ConsoleColor.DarkYellow, "Great choice Commander!");
             Console.WriteLine();
 
             Console.Write("To shoot just provide me coordinates (for example ");
-            PrintInColor(ConsoleColor.Green, "\"a1\" ");
+            PrintInColor(ConsoleColor.Cyan, "\"a1\" ");
             Console.WriteLine(") and our artillery will fire.");
 
             Console.Write("Remember that we have to save ammunition and you ");
@@ -89,6 +93,50 @@ namespace Battleships.Cmd
             Console.WriteLine();
             
             Console.WriteLine("Now start shooting and enter coordinate:");
+        }
+
+        public static void PrintStateAfterMove(GameState gameState)
+        {
+            switch (gameState.ShotResult)
+            {
+                case ShotResult.Illegal:
+                    PrintInColor(ConsoleColor.DarkRed, "Chose different coordinate, you already shot here.");
+                    Console.WriteLine();
+                    return;
+                case ShotResult.Miss:
+                    Console.WriteLine("Miss - Next time you will have better luck.");
+                    Console.WriteLine();
+                    break;
+                case ShotResult.Hit:
+                    PrintInColor(ConsoleColor.DarkYellow, "Hit - Good job! You hit enemy ship");  
+                    Console.WriteLine();
+                    break;
+                case ShotResult.Sink:
+                    PrintInColor(ConsoleColor.DarkGreen, "Sink - Greta job! You sunk enemy ship.");
+                    Console.WriteLine();
+                    break;
+            }
+            PrintBoard(gameState.Board);
+            
+            PrintShipReport(gameState.FightingShips);
+            Console.WriteLine("----------------------------------------------------------------");
+            Console.WriteLine();
+            
+        }
+
+        private static void PrintShipReport(List<FightingShip> gameStateFightingShips)
+        {
+            var notSunkShips = gameStateFightingShips.Where(ship => !ship.IsSunk).ToList();
+            
+            var isOrAre = notSunkShips.Count == 1 ? "is" : "are"; 
+            Console.WriteLine($@"There {isOrAre} still {notSunkShips.Count} ships to sink:");
+            Console.WriteLine();
+            
+            foreach (var ship in notSunkShips)
+            {
+                Console.WriteLine($" {ship.ShipClass} - total size: {ship.Coordinates.Count}, shots to sink: {ship.NotHitCoordinates.Count}");
+            }
+            Console.WriteLine();
         }
         
         private static void PrintLegend()
