@@ -12,8 +12,8 @@ namespace Battleships.Cmd
         static void Main()
         {
             var gameManager = new GameManager(new RandomShipPlacer(), new BattleshipGameEngine());
-            var board = gameManager.StartGame();
             
+            var board = gameManager.StartGame();
             ConsolePrinter.PrintIntroduction(board);
 
             var mode = ReadGameMode();
@@ -71,7 +71,7 @@ namespace Battleships.Cmd
                 
                 coordinatesToShoot.Remove(shot);
 
-                var moveString = ParseCoodinateToMove(shot);
+                var moveString = MoveParser.ParseCoordinateToMove(shot);
                 ConsolePrinter.PrintInColor(ConsoleColor.Cyan, moveString);
                 Console.WriteLine();
                 
@@ -115,7 +115,7 @@ namespace Battleships.Cmd
                 Coordinate shotCoordinate;
                 try
                 {
-                    shotCoordinate = ParseMove(move);
+                    shotCoordinate = MoveParser.ParseMove(move);
                   
                 }
                 catch (InvalidMoveException exception)
@@ -132,42 +132,6 @@ namespace Battleships.Cmd
                 isGameFinished = result.IsGameFinished;
             }
             ConsolePrinter.PrintEndGameMessage();
-        }
-        
-        private static Coordinate ParseMove(string move)
-        {
-            int row, column;
-            string lower;
-            switch (move.Length)
-            {
-                case 2:
-                    lower = move.ToLower();
-                    column = lower[0] - 96;
-                    row = lower[1] - 48;
-                    break;
-                case 3:
-                    lower = move.ToLower();
-                    column = lower[0] - 96;
-                    row = (lower[1] - 48) * 10 + lower[2] - 48;
-                    break;
-                default:
-                    throw new InvalidMoveException(move);
-            }
-
-            if (column is < 1 or > 10 || row is < 1 or > 10)
-            {
-                throw new InvalidMoveException(move);
-            }
-            
-            return new Coordinate(row - 1, column - 1);
-        }
-
-        private static string ParseCoodinateToMove(Coordinate coordinate)
-        {
-            var column = Convert.ToChar(coordinate.Column + 97);
-            var row = (coordinate.Row +1).ToString();
-
-            return column + row;
         }
     }
 }
