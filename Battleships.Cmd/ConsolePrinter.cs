@@ -34,10 +34,10 @@ namespace Battleships.Cmd
             Console.WriteLine("Now you need to decide how we play this battle:");
             Console.WriteLine();
             Console.Write("- type ");
-            PrintInColor(ConsoleColor.Green, $"{GameMode.Auto}");
+            PrintInColor(ConsoleColor.Cyan, $"{GameMode.Auto}");
             Console.WriteLine(" to let me win this battle for us");
             Console.Write("- type ");
-            PrintInColor(ConsoleColor.Green, $"{GameMode.Manual}");
+            PrintInColor(ConsoleColor.Cyan, $"{GameMode.Manual}");
             Console.WriteLine(" to fight without my help (I will still show you state of the battlefield)");
             Console.WriteLine();
         }

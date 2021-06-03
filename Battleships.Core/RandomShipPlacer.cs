@@ -12,7 +12,6 @@ namespace Battleships.Core
         List<PlacedShip> PlaceShips(IEnumerable<UnplacedShip> unplacedShips);
     }
     
-    // TODO auto and manual cyan 
     // TODO console size
     // TODO change change colors
     // TODO list of ships on the start
