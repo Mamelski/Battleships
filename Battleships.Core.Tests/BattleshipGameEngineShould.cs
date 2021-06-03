@@ -25,15 +25,18 @@ namespace Battleships.Core.Tests
         {
             var sut = new BattleshipGameEngine();
             sut.SetupBoard(new[] {_placedShip});
-            
+
             var shot = new Coordinate(1, 1);
 
-            var firstResult = sut.Shoot(shot);
-            var resultAfterIllegalMove = sut.Shoot(shot);
+            var firstGameState = sut.Shoot(shot);
+            var gameStateAfterIllegalMove = sut.Shoot(shot);
 
-            resultAfterIllegalMove.ShotResult.ShouldBe(ShotResult.Illegal);
-            resultAfterIllegalMove.IsGameFinished.ShouldBe(firstResult.IsGameFinished);
-            resultAfterIllegalMove.Board.ShouldBe(firstResult.Board);
+            gameStateAfterIllegalMove.ShotResult.ShouldBe(ShotResult.Illegal);
+            gameStateAfterIllegalMove.IsGameFinished.ShouldBe(firstGameState.IsGameFinished);
+            gameStateAfterIllegalMove.Board.ShouldBe(firstGameState.Board);
+
+            var expectedShip = new FightingShip(_placedShip.ShipClass, _placedShip.Coordinates);
+            AssertShips(gameStateAfterIllegalMove, expectedShip);
         }
 
         [Fact]
@@ -44,17 +47,20 @@ namespace Battleships.Core.Tests
             
             var shot = new Coordinate(1, 1);
 
-            var result = sut.Shoot(shot);
+            var gameState = sut.Shoot(shot);
             
-            result.Board[shot].ShouldBe(CoordinateState.Miss);
+            gameState.Board[shot].ShouldBe(CoordinateState.Miss);
 
             foreach (var coordinate in _allCoordinates.Except(new[] {shot}))
             {
-                result.Board[coordinate].ShouldBe(CoordinateState.Unknown);
+                gameState.Board[coordinate].ShouldBe(CoordinateState.Unknown);
             }
             
-            result.ShotResult.ShouldBe(ShotResult.Miss);
-            result.IsGameFinished.ShouldBe(false);
+            gameState.ShotResult.ShouldBe(ShotResult.Miss);
+            gameState.IsGameFinished.ShouldBe(false);
+            
+            var expectedShip = new FightingShip(_placedShip.ShipClass, _placedShip.Coordinates);
+            AssertShips(gameState, expectedShip);
         }
         
         [Fact]
@@ -65,17 +71,22 @@ namespace Battleships.Core.Tests
             
             var shot = new Coordinate(0, 0);
 
-            var result = sut.Shoot(shot);
+            var gameState = sut.Shoot(shot);
             
-            result.Board[shot].ShouldBe(CoordinateState.Hit);
+            gameState.Board[shot].ShouldBe(CoordinateState.Hit);
 
             foreach (var coordinate in _allCoordinates.Except(new[] {shot}))
             {
-                result.Board[coordinate].ShouldBe(CoordinateState.Unknown);
+                gameState.Board[coordinate].ShouldBe(CoordinateState.Unknown);
             }
             
-            result.ShotResult.ShouldBe(ShotResult.Hit);
-            result.IsGameFinished.ShouldBe(false);
+            gameState.ShotResult.ShouldBe(ShotResult.Hit);
+            gameState.IsGameFinished.ShouldBe(false);
+
+            var expectedShip = new FightingShip(_placedShip.ShipClass, _placedShip.Coordinates);
+            expectedShip.NotHitCoordinates.Remove(shot);
+            
+            AssertShips(gameState, expectedShip);
         }
         
         [Fact]
@@ -84,35 +95,53 @@ namespace Battleships.Core.Tests
             var sut = new BattleshipGameEngine();
             sut.SetupBoard(new[] {_placedShip});
 
-            GameState result = null;
+            GameState gameState = null;
             foreach (var coordinate in _placedShip.Coordinates)
             {
-                result = sut.Shoot(coordinate);
+                gameState = sut.Shoot(coordinate);
             }
             
-            result.ShouldNotBe(null);
+            gameState.ShouldNotBe(null);
 
             var surroundingCoordinates = CoordinateHelper.GetSurroundingCoordinates(_placedShip.Coordinates);
             
             foreach (var coordinate in surroundingCoordinates)
             {
-                result.Board[coordinate].ShouldBe(CoordinateState.Miss);
+                gameState.Board[coordinate].ShouldBe(CoordinateState.Miss);
             }
 
             foreach (var coordinate in _allCoordinates
                 .Except(_placedShip.Coordinates)
                 .Except(surroundingCoordinates))
             {
-                result.Board[coordinate].ShouldBe(CoordinateState.Unknown);
+                gameState.Board[coordinate].ShouldBe(CoordinateState.Unknown);
             }
             
             foreach (var coordinate in _placedShip.Coordinates)
             {
-                result.Board[coordinate].ShouldBe(CoordinateState.Sunk);
+                gameState.Board[coordinate].ShouldBe(CoordinateState.Sunk);
             }
 
-            result.ShotResult.ShouldBe(ShotResult.Sink);
-            result.IsGameFinished.ShouldBe(true);
+            gameState.ShotResult.ShouldBe(ShotResult.Sink);
+            gameState.IsGameFinished.ShouldBe(true);
+            
+            var expectedShip = new FightingShip(_placedShip.ShipClass, _placedShip.Coordinates);
+            expectedShip.NotHitCoordinates.Clear();
+            
+            AssertShips(gameState, expectedShip);
+        }
+
+        private void AssertShips(GameState gameState, FightingShip expected)
+        {
+            gameState.FightingShips.Count.ShouldBe(1);
+            
+            var actual = gameState.FightingShips.Single();
+            
+            actual.IsSunk.ShouldBe(expected.IsSunk);
+            actual.Size.ShouldBe(expected.Size);
+            actual.ShipClass.ShouldBe(expected.ShipClass);
+            actual.Coordinates.ShouldBeEquivalentTo(expected.Coordinates);
+            actual.NotHitCoordinates.ShouldBeEquivalentTo(expected.NotHitCoordinates);
         }
     }
 }
