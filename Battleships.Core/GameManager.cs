@@ -17,7 +17,6 @@ namespace Battleships.Core
             _battleshipGameEngine = battleshipGameEngine;
         }
 
-
         public Board StartGame()
         {
             var unplacedShips = ProduceShips();

@@ -100,19 +100,19 @@ namespace Battleships.Cmd
             switch (gameState.ShotResult)
             {
                 case ShotResult.Illegal:
-                    PrintInColor(ConsoleColor.Red, "Chose different coordinate, you already shot here.");
+                    PrintInColor(ConsoleColor.Red, "Chose different coordinate, we already shot here.");
                     Console.WriteLine();
                     return;
                 case ShotResult.Miss:
-                    Console.WriteLine("Miss - Next time you will have better luck.");
+                    Console.WriteLine("Miss - Next time we will have better luck.");
                     Console.WriteLine();
                     break;
                 case ShotResult.Hit:
-                    PrintInColor(ConsoleColor.Yellow, "Hit - Good job! You hit enemy ship");  
+                    PrintInColor(ConsoleColor.Yellow, "Hit - Good job! We hit enemy's ship");  
                     Console.WriteLine();
                     break;
                 case ShotResult.Sink:
-                    PrintInColor(ConsoleColor.Green, "Sink - Greta job! You sunk enemy ship.");
+                    PrintInColor(ConsoleColor.Green, "Sink - Greta job! We sunk enemy's ship.");
                     Console.WriteLine();
                     break;
             }
@@ -129,14 +129,15 @@ namespace Battleships.Cmd
             var notSunkShips = gameStateFightingShips.Where(ship => !ship.IsSunk).ToList();
             if (!notSunkShips.Any())
             {
-                PrintInColor(ConsoleColor.Green, "No enemy ships left!");
+                PrintInColor(ConsoleColor.Green, "No enemy's ships left!");
                 Console.WriteLine();
 
                 return;
             }
             
             var isOrAre = notSunkShips.Count == 1 ? "is" : "are"; 
-            Console.WriteLine($@"There {isOrAre} still {notSunkShips.Count} ships to sink:");
+            var shipOrShips = notSunkShips.Count == 1 ? "ship" : "ships"; 
+            Console.WriteLine($@"There {isOrAre} still {notSunkShips.Count} {shipOrShips} to sink:");
             Console.WriteLine();
             
             foreach (var ship in notSunkShips)
@@ -153,13 +154,13 @@ namespace Battleships.Cmd
             Console.WriteLine();
             
             PrintCoordinateState(CoordinateState.Unknown);
-            Console.WriteLine(" - means that have no idea what is there");
+            Console.WriteLine(" - means that we have no idea what is there");
             
             PrintCoordinateState(CoordinateState.Miss);
             Console.WriteLine(" - means that we shot there and missed");
             
             PrintCoordinateState(CoordinateState.Hit);
-            Console.WriteLine(" - means that we hit part of the enemy ship");
+            Console.WriteLine(" - means that we hit part of the enemy's ship");
             
             PrintCoordinateState(CoordinateState.Sunk);
             Console.WriteLine(" - means that we hit enemy ship on this coordinate and sunk it");
