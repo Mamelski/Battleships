@@ -64,12 +64,16 @@ namespace Battleships.Cmd
             while (coordinatesToShoot.Any())
             {
                 var randomCoordinateIndex = random.Next(coordinatesToShoot.Count);
-                var randomCoordinate = coordinatesToShoot.ElementAt(randomCoordinateIndex);
+                var shot = coordinatesToShoot.ElementAt(randomCoordinateIndex);
                 
-                coordinatesToShoot.Remove(randomCoordinate);
+                coordinatesToShoot.Remove(shot);
 
-                var result = gameManager.Shoot(randomCoordinate);
-                ConsolePrinter.PrintBoard(result.Board);
+                var moveString = ParseCoodinateToMove(shot);
+                ConsolePrinter.PrintInColor(ConsoleColor.Cyan, moveString);
+                Console.WriteLine();
+                
+                var result = gameManager.Shoot(shot);
+                ConsolePrinter.PrintStateAfterMove(result);
                 
                 if (result.IsGameFinished)
                 {
@@ -141,6 +145,13 @@ namespace Battleships.Cmd
             
             return new Coordinate(row - 1, column - 1);
         }
-       
+
+        private static string ParseCoodinateToMove(Coordinate coordinate)
+        {
+            var column = Convert.ToChar(coordinate.Column + 97);
+            var row = (coordinate.Row +1).ToString();
+
+            return column + row;
+        }
     }
 }

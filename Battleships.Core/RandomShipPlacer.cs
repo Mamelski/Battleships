@@ -12,11 +12,11 @@ namespace Battleships.Core
         List<PlacedShip> PlaceShips(IEnumerable<UnplacedShip> unplacedShips);
     }
     
-    // TODO add nice printing to auto mode 
     // TODO auto and manual cyan 
     // TODO console size
     // TODO change change colors
     // TODO list of ships on the start
+    // TODO print info when 0 ships to sunk
     public class RandomShipPlacer : IShipPlacer
     {
         private readonly Random _random = new();
