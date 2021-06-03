@@ -12,13 +12,13 @@ namespace Battleships.Core
         List<PlacedShip> PlaceShips(IEnumerable<UnplacedShip> unplacedShips);
     }
     
-    // TODO ships cannot be placed together
     // TODO test for returning listOfShips
     // TODO invalid move handling 
     // TODO add sprinting to auto mode 
     // TODO auto and manual cyan 
     // TODO console size
     // TODO change change colors
+    // TODO list of ships on the start
     public class RandomShipPlacer : IShipPlacer
     {
         private readonly Random _random = new();
@@ -32,8 +32,10 @@ namespace Battleships.Core
             foreach (var unplacedShip in unplacedShips)
             {
                 var placementCoordinates = FindPlacementCoordinatesForShip(unplacedShip.Size, freeCoordinates);
+                
+                var surroundingCoordinates = CoordinateHelper.GetSurroundingCoordinates(placementCoordinates);
 
-                foreach (var coordinate in placementCoordinates)
+                foreach (var coordinate in placementCoordinates.Concat(surroundingCoordinates))
                 {
                     freeCoordinates.Remove(coordinate);
                 }

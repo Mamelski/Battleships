@@ -2,6 +2,7 @@
 using System.Linq;
 using Battleships.Core.Models;
 using Battleships.Core.Models.Ships;
+using Battleships.Core.Utils;
 
 namespace Battleships.Core
 {
@@ -84,6 +85,11 @@ namespace Battleships.Core
                 foreach (var sunkShipCoordinate in fightingShip.Coordinates)
                 {
                     _board[sunkShipCoordinate] = CoordinateState.Sunk;
+                }
+
+                foreach (var surroundingCoordinate in CoordinateHelper.GetSurroundingCoordinates(fightingShip.Coordinates))
+                {
+                    _board[surroundingCoordinate] = CoordinateState.Miss;
                 }
 
                 return;

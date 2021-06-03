@@ -83,5 +83,23 @@ namespace Battleships.Core.Tests
                placedShip.Coordinates.ShouldAllBe(coordinate => coordinate.Column >= 0 && coordinate.Row <= Consts.Columns);
             }
         }
+        
+        [Fact]
+        public void AssignCoordinatesThatShipsDontTouch()
+        {
+            var placedShips = _sut.PlaceShips(_unplacedShips);
+
+            foreach (var placedShip in placedShips)
+            {
+                var surroundingCoordinates = CoordinateHelper.GetSurroundingCoordinates(placedShip.Coordinates);
+
+                var otherShipsCoordinates = placedShips.Except(placedShips).SelectMany(ps => ps.Coordinates).ToList();
+
+                foreach (var surroundingCoordinate in surroundingCoordinates)
+                {
+                    otherShipsCoordinates.ShouldNotContain(surroundingCoordinate);
+                }
+            }
+        } 
     }
 }

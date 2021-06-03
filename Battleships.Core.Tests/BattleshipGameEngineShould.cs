@@ -91,8 +91,17 @@ namespace Battleships.Core.Tests
             }
             
             result.ShouldNotBe(null);
+
+            var surroundingCoordinates = CoordinateHelper.GetSurroundingCoordinates(_placedShip.Coordinates);
             
-            foreach (var coordinate in _allCoordinates.Except(_placedShip.Coordinates))
+            foreach (var coordinate in surroundingCoordinates)
+            {
+                result.Board[coordinate].ShouldBe(CoordinateState.Miss);
+            }
+
+            foreach (var coordinate in _allCoordinates
+                .Except(_placedShip.Coordinates)
+                .Except(surroundingCoordinates))
             {
                 result.Board[coordinate].ShouldBe(CoordinateState.Unknown);
             }
