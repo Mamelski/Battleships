@@ -12,9 +12,9 @@ namespace Battleships.Cmd
         public static void PrintIntroduction(Board board)
         {
             Console.WriteLine();
-            PrintInColor(ConsoleColor.DarkYellow, "Hello Commander! ");
+            PrintInColor(ConsoleColor.Yellow, "Hello Commander! ");
             Console.Write("Enemies are at our waters and we need to ");
-            PrintInColor(ConsoleColor.DarkRed, "destroy them!");
+            PrintInColor(ConsoleColor.Red, "destroy them!");
             Console.WriteLine();
 
             Console.WriteLine("I am the next generation AI system and I will help you win this battle.");
@@ -71,7 +71,7 @@ namespace Battleships.Cmd
 
         public static void PrintEndGameMessage()
         {
-            PrintInColor(ConsoleColor.DarkGreen, "We won Captain! Our enemies are defeated" );
+            PrintInColor(ConsoleColor.Green, "We won Captain! Our enemies are defeated" );
             Console.WriteLine();
 
             Console.WriteLine("Press ENTER to close me ...");
@@ -80,7 +80,7 @@ namespace Battleships.Cmd
 
         public static void PrintManualIntroduction()
         {
-            PrintInColor(ConsoleColor.DarkYellow, "Great choice Commander!");
+            PrintInColor(ConsoleColor.Yellow, "Great choice Commander!");
             Console.WriteLine();
 
             Console.Write("To shoot just provide me coordinates (for example ");
@@ -88,7 +88,7 @@ namespace Battleships.Cmd
             Console.WriteLine(") and our artillery will fire.");
 
             Console.Write("Remember that we have to save ammunition and you ");
-            PrintInColor(ConsoleColor.DarkRed, "cannot");
+            PrintInColor(ConsoleColor.Red, "cannot");
             Console.WriteLine(" shoot two times on the same coordinate.");
             Console.WriteLine();
             
@@ -100,7 +100,7 @@ namespace Battleships.Cmd
             switch (gameState.ShotResult)
             {
                 case ShotResult.Illegal:
-                    PrintInColor(ConsoleColor.DarkRed, "Chose different coordinate, you already shot here.");
+                    PrintInColor(ConsoleColor.Red, "Chose different coordinate, you already shot here.");
                     Console.WriteLine();
                     return;
                 case ShotResult.Miss:
@@ -108,11 +108,11 @@ namespace Battleships.Cmd
                     Console.WriteLine();
                     break;
                 case ShotResult.Hit:
-                    PrintInColor(ConsoleColor.DarkYellow, "Hit - Good job! You hit enemy ship");  
+                    PrintInColor(ConsoleColor.Yellow, "Hit - Good job! You hit enemy ship");  
                     Console.WriteLine();
                     break;
                 case ShotResult.Sink:
-                    PrintInColor(ConsoleColor.DarkGreen, "Sink - Greta job! You sunk enemy ship.");
+                    PrintInColor(ConsoleColor.Green, "Sink - Greta job! You sunk enemy ship.");
                     Console.WriteLine();
                     break;
             }
@@ -170,7 +170,7 @@ namespace Battleships.Cmd
                     PrintInColor(ConsoleColor.Yellow, "x ");
                     break;
                 case CoordinateState.Sunk:
-                    PrintInColor(ConsoleColor.DarkRed, "x ");
+                    PrintInColor(ConsoleColor.Red, "x ");
                     break;
                 case CoordinateState.Unknown:
                     Console.Write("  ");

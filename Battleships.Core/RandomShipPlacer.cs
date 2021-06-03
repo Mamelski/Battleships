@@ -13,7 +13,6 @@ namespace Battleships.Core
     }
     
     // TODO console size
-    // TODO change change colors
     // TODO list of ships on the start
     // TODO print info when 0 ships to sunk
     public class RandomShipPlacer : IShipPlacer

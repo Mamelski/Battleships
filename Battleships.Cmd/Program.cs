@@ -36,7 +36,7 @@ namespace Battleships.Cmd
                 var mode = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(mode))
                 {
-                    ConsolePrinter.PrintInColor(ConsoleColor.DarkRed, "Invalid mode");
+                    ConsolePrinter.PrintInColor(ConsoleColor.Red, "Invalid mode");
                     Console.WriteLine();
                     continue;
                 }
@@ -51,7 +51,7 @@ namespace Battleships.Cmd
                     return GameMode.Auto;
                 }
                 
-                ConsolePrinter.PrintInColor(ConsoleColor.DarkRed, "Invalid mode");
+                ConsolePrinter.PrintInColor(ConsoleColor.Red, "Invalid mode");
                 Console.WriteLine();
             }
         }
