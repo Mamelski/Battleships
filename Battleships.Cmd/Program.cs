@@ -91,9 +91,21 @@ namespace Battleships.Cmd
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 var move = Console.ReadLine();
                 Console.ResetColor();
-                
-                var shotCoordinates = ParseMove(move);
-                var result = gameManager.Shoot(shotCoordinates);
+
+                Coordinate shotCoordinate;
+                try
+                {
+                    shotCoordinate = ParseMove(move);
+                  
+                }
+                catch (InvalidMoveException exception)
+                {
+                    ConsolePrinter.PrintInColor(ConsoleColor.Red, $"Invalid coordinates: {exception.Move}");
+                    Console.WriteLine();
+                    continue;
+                }
+
+                var result = gameManager.Shoot(shotCoordinate);
 
                 ConsolePrinter.PrintStateAfterMove(result);
 
@@ -119,12 +131,12 @@ namespace Battleships.Cmd
                     row = (lower[1] - 48) * 10 + lower[2] - 48;
                     break;
                 default:
-                    throw new IncorrectMoveException();
+                    throw new InvalidMoveException(move);
             }
 
             if (column is < 1 or > 10 || row is < 1 or > 10)
             {
-                throw new IncorrectMoveException();
+                throw new InvalidMoveException(move);
             }
             
             return new Coordinate(row - 1, column - 1);

@@ -12,8 +12,7 @@ namespace Battleships.Core
         List<PlacedShip> PlaceShips(IEnumerable<UnplacedShip> unplacedShips);
     }
     
-    // TODO invalid move handling 
-    // TODO add sprinting to auto mode 
+    // TODO add nice printing to auto mode 
     // TODO auto and manual cyan 
     // TODO console size
     // TODO change change colors
