@@ -12,9 +12,6 @@ namespace Battleships.Core
         List<PlacedShip> PlaceShips(IEnumerable<UnplacedShip> unplacedShips);
     }
     
-    // TODO console size
-    // TODO list of ships on the start
-    // TODO print info when 0 ships to sunk
     public class RandomShipPlacer : IShipPlacer
     {
         private readonly Random _random = new();

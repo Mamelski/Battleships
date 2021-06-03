@@ -33,7 +33,10 @@ namespace Battleships.Cmd
         {
             while (true)
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 var mode = Console.ReadLine();
+                Console.ResetColor();
+                
                 if (string.IsNullOrWhiteSpace(mode))
                 {
                     ConsolePrinter.PrintInColor(ConsoleColor.Red, "Invalid mode");
@@ -73,6 +76,19 @@ namespace Battleships.Cmd
                 Console.WriteLine();
                 
                 var result = gameManager.Shoot(shot);
+
+                if (result.ShotResult == ShotResult.Sink)
+                {
+                    foreach (var sunkShip in result.FightingShips.Where(ship => ship.IsSunk))
+                    {
+                        var surroundingCoordinates = CoordinateHelper.GetSurroundingCoordinates(sunkShip.Coordinates);
+                        foreach (var coordinate in surroundingCoordinates)
+                        {
+                            coordinatesToShoot.Remove(coordinate);
+                        }
+                    }
+                }
+                
                 ConsolePrinter.PrintStateAfterMove(result);
                 
                 if (result.IsGameFinished)

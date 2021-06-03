@@ -127,6 +127,13 @@ namespace Battleships.Cmd
         private static void PrintShipReport(List<FightingShip> gameStateFightingShips)
         {
             var notSunkShips = gameStateFightingShips.Where(ship => !ship.IsSunk).ToList();
+            if (!notSunkShips.Any())
+            {
+                PrintInColor(ConsoleColor.Green, "No enemy ships left!");
+                Console.WriteLine();
+
+                return;
+            }
             
             var isOrAre = notSunkShips.Count == 1 ? "is" : "are"; 
             Console.WriteLine($@"There {isOrAre} still {notSunkShips.Count} ships to sink:");
@@ -136,6 +143,7 @@ namespace Battleships.Cmd
             {
                 Console.WriteLine($" {ship.ShipClass} - total size: {ship.Coordinates.Count}, shots to sink: {ship.NotHitCoordinates.Count}");
             }
+
             Console.WriteLine();
         }
         
